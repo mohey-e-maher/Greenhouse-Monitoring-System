@@ -2,8 +2,13 @@ import cv2
 import numpy as np
 import time
 import serial
+
+# to connect to the serial port
 s = serial.Serial(port='COM1', baudrate=9600)
+# to detect the camera the index be :(0 : when it's integrated camera / 1-more:usb camera )
 cap = cv2.VideoCapture(0)
+
+# start detect the color for 1 frame 
 flag = ""
 cr=0
 cb=0
@@ -53,17 +58,6 @@ while True:
     ret,im = cap.read() #READ FRAMES from Camera
     hsv = cv2.cvtColor(im,cv2.COLOR_BGR2HSV) #CONVERT FRAMES FROM COLOR TO HSV
 
-    '''
-    THE PIXELS IN THE IMAGE IN THE RANGE IN cv2.inRange() will be converted to white pixels and rest black
-    lower_red = np.array([0,50,50])
-    upper_red = np.array([20,255,255])
-    mask0 = cv2.inRange(hsv, lower_red ,upper_red)
-   
-     #upper mask red
-    lower_red = np.array([170,50,50])
-    upper_red = np.array([180,255,255])
-    mask1 = cv2.inRange(hsv, lower_red ,upper_red)
-    mask=mask0+mask1'''
     #yellow
     lowyellow=np.array([20,50,100],dtype=np.uint8) #Lower Limit of Yetllow color
     highyellow=np.array([42,255,255],dtype=np.uint8) #Upper LIMIT of Yellow Color 
