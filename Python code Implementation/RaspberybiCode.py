@@ -85,6 +85,16 @@ LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
 LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
 
 
+
+# Function to read SPI data from MCP3008 chip
+# Channel must be an integer 0-7
+def ReadChannel(channel):
+  adc = spi.xfer2([1,(8+channel)<<4,0])
+  data = ((adc[1]&3) << 8) + adc[2]
+  return data
+  
+  
+ 
 # How to calculate temperature from
 # TMP36 data, rounded to specified
 # number of decimal places.
@@ -237,13 +247,8 @@ def readLine(line, characters):
           lcd_string("Secured",LCD_LINE_2)
           time.sleep(0.5)
           lcd_byte(0x01,LCD_CMD)
-         lcd_string("HOLD 0 To LOGOUT",LCD_LINE_1)
-         time.sleep(1)
-         if(GPIO.input(C2) == 1):
-          lcd_string("BYE!",LCD_LINE_2)
-          time.sleep(1)
-          lcd_byte(0x01,LCD_CMD)
-          break
+         lcd_string("Camera ON",LCD_LINE_1)
+         lcd_string("Put Leaf",LCD_LINE_2)
          try:
           Data=pio.uart.recv()
           if(Data == "y"):
@@ -265,6 +270,13 @@ def readLine(line, characters):
          except:
           p.stop()
           GPIO.cleanup()
+         lcd_string("HOLD 0 To LOGOUT",LCD_LINE_1)
+         time.sleep(1)
+         if(GPIO.input(C2) == 1):
+          lcd_string("BYE!",LCD_LINE_2)
+          time.sleep(1)
+          lcd_byte(0x01,LCD_CMD)
+          break
 	####################################
         lcd_string("Enter Password ",LCD_LINE_1)
         lcd_string("",LCD_LINE_2)

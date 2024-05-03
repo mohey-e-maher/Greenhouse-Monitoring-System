@@ -1,4 +1,5 @@
-# greenhouse-monitoring-system
+<h1 align = center style ="margin-bottom:40px"> greenhouse-monitoring-system </h1>
+<p align="center"><img src="media/1.png" width=50%><img src="media/2.png" width=50%></p>
 
 ## Overview
 
